@@ -66,6 +66,48 @@ public class FirstSeleniumTest extends BaseTest {
         assertTrue(actualMessage.contains("You logged out of the secure area!"));
     }
 
+    // AC-4
+    @Test
+    void emptyCredentialsLogin() {
+
+        driver.get("https://the-internet.herokuapp.com/login");
+
+        LoginPage loginPage = new LoginPage(driver);
+
+        loginPage.login("", "");
+
+        String actualMessage = loginPage.getFlashMessage();
+
+        assertTrue(driver.getCurrentUrl().endsWith("/login"),
+                "Actual URL: " + driver.getCurrentUrl());
+        assertTrue(actualMessage.contains("Username and password are required"),
+                "Actual message: " + actualMessage);
+    }
+
+    // AC-7
+    @Test
+    void secureAreaAfterLogout() {
+
+        driver.get("https://the-internet.herokuapp.com/login");
+
+        LoginPage loginPage = new LoginPage(driver);
+
+        loginPage.login("tomsmith", "SuperSecretPassword!");
+
+        SecureAreaPage secureAreaPage = new SecureAreaPage(driver);
+
+        secureAreaPage.logout();
+
+        driver.get("https://the-internet.herokuapp.com/secure");
+
+        String actualMessage = loginPage.getFlashMessage();
+
+        assertTrue(driver.getCurrentUrl().endsWith("/login"),
+                "Actual URL: " + driver.getCurrentUrl());
+        assertTrue(actualMessage.contains("You must login to view the secure area!"),
+                "Actual message: " + actualMessage);
+    }
+
 }
 //    @Test
 //    void openBrowser(){
