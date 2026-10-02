@@ -28,7 +28,7 @@ public class DropdownPage extends BasePage {
     }
 
     public String getSelectedValue() {
-        return getSelectedOption().getAttribute("value");
+        return getSelectedOption().getDomProperty("value");
     }
 
     private WebElement getSelectedOption() {

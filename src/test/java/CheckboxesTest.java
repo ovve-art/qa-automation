@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,13 +13,15 @@ public class CheckboxesTest extends BaseTest {
 
         checkboxesPage.open();
 
-        assertFalse(checkboxesPage.isChecked(0), "Precondition: checkbox 1 should be unchecked");
-        assertTrue(checkboxesPage.isChecked(1), "Precondition: checkbox 2 should be checked");
+        assertEquals(2, checkboxesPage.getCheckboxCount(), "Page should contain exactly 2 checkboxes");
 
-        checkboxesPage.toggle(0);
-        checkboxesPage.toggle(1);
+        assertFalse(checkboxesPage.isFirstChecked(), "Precondition: checkbox 1 should be unchecked");
+        assertTrue(checkboxesPage.isSecondChecked(), "Precondition: checkbox 2 should be checked");
 
-        assertTrue(checkboxesPage.isChecked(0), "Checkbox 1 should be checked after click");
-        assertFalse(checkboxesPage.isChecked(1), "Checkbox 2 should be unchecked after click");
+        checkboxesPage.toggleFirst();
+        checkboxesPage.toggleSecond();
+
+        assertTrue(checkboxesPage.isFirstChecked(), "Checkbox 1 should be checked after click");
+        assertFalse(checkboxesPage.isSecondChecked(), "Checkbox 2 should be unchecked after click");
     }
 }
